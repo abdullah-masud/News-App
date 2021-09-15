@@ -49,22 +49,22 @@ export class News extends Component {
   }
   render() {
     return (
-      <div className="container">
+      <div className="container my-3">
         <h2 className="my-3">Daily News</h2>
+
         <div className="row">
-          <div className="col-md-4 col-4">
-            <NewsItem
-              title="My Title"
-              description="My Description"
-              imageUrl="https://a4.espncdn.com/combiner/i?img=%2Fi%2Fcricket%2Fcricinfo%2F1099495_800x450.jpg"
-            />
-          </div>
-          <div className="col-md-4 col-4">
-            <NewsItem title="My Title" description="My Description" />
-          </div>
-          <div className="col-md-4 col-4">
-            <NewsItem title="My Title" description="My Description" />
-          </div>
+          {this.state.articles.map((element) => {
+            return (
+              <div className="col-md-4 col-4" key={element.url}>
+                <NewsItem
+                  title={element.title.slice(0, 45)}
+                  description={element.description.slice(0, 40)}
+                  imageUrl={element.urlToImage}
+                  newsUrl={element.url}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     );
