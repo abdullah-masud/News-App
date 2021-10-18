@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
+import PropTypes from "prop-types";
 
 export class News extends Component {
+  static defaultProps = {
+    pagesize: 10,
+    country: "us",
+    category: "science",
+  };
+
+  static propTypes = {
+    pagesize: PropTypes.number,
+    country: PropTypes.string,
+    catogery: PropTypes.string,
+  };
+
   // constructor
   constructor() {
     super();
@@ -14,7 +27,7 @@ export class News extends Component {
   }
 
   async componentDidMount() {
-    let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=4e7604820ba748d8917f30940b2315a3&page=1&pagesize=${this.props.pagesize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=4e7604820ba748d8917f30940b2315a3&page=1&pagesize=${this.props.pagesize}`;
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
@@ -27,7 +40,11 @@ export class News extends Component {
 
   handlePreviousClick = async () => {
     console.log("previous");
-    let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=4e7604820ba748d8917f30940b2315a3&page=${
+    let url = `https://newsapi.org/v2/top-headlines?country=${
+      this.props.country
+    }&category=${
+      this.props.category
+    }&apiKey=4e7604820ba748d8917f30940b2315a3&page=${
       this.state.page - 1
     }&pagesize=${this.props.pagesize}`;
     this.setState({ loading: true });
@@ -46,7 +63,11 @@ export class News extends Component {
       Math.ceil(this.state.totalResults / this.props.pagesize)
     ) {
     } else {
-      let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=4e7604820ba748d8917f30940b2315a3&page=${
+      let url = `https://newsapi.org/v2/top-headlines?country=${
+        this.props.country
+      }&category=${
+        this.props.category
+      }&apiKey=4e7604820ba748d8917f30940b2315a3&page=${
         this.state.page + 1
       }&pagesize=${this.props.pagesize}`;
       this.setState({ loading: true });
@@ -63,13 +84,15 @@ export class News extends Component {
   render() {
     return (
       <div className="container my-3">
-        <h1 className="text-center">Daily News</h1>
+        <h1 className="text-center" style={{ margin: 17 }}>
+          Daily News
+        </h1>
         {this.state.loading && <Spinner />}
         <div className="row">
           {!this.state.loading &&
             this.state.articles.map((element) => {
               return (
-                <div className="col-md-4 col-4" key={element.url}>
+                <div className="col-md-4" key={element.url}>
                   <NewsItem
                     title={element.title ? element.title.slice(0, 65) : ""}
                     description={
