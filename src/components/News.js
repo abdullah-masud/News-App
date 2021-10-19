@@ -106,6 +106,9 @@ export class News extends Component {
                         : "https://image.cnbcfm.com/api/v1/image/106922527-1628177099813-Weber-OB-210805-PRESS-11.jpg?v=1628177178"
                     }
                     newsUrl={element.url}
+                    author={element.author}
+                    date={element.publishedAt}
+                    source={element.source.name}
                   />
                 </div>
               );
